@@ -5,6 +5,7 @@ var colors = ['rgba(251, 214, 205, 0.3)', 'rgba(255, 50, 0, 0.3)',
   'rgba(55, 55, 55, 0.3)', 'rgba(167, 167, 167, 0.3)' ];  // массив цветов для квадратов
 var sizes = [10, 20, 5]; // массив размеров для квадратов
 canvas.style.display = 'block';
+canvas.style.position = 'absolute';
 canvas.style.backgroundColor = '#291414';
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
