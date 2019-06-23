@@ -11,7 +11,6 @@ body {
     text-transform: uppercase;
     margin: 0;
     padding: 0;
-    text-align: center;
 }
 
 /*стили для главного меню*/
@@ -28,6 +27,7 @@ body {
     align-content: center;
     justify-content: center;
     overflow: auto;
+    text-align: center;
 }
 
 .game_name {
@@ -101,4 +101,19 @@ li {
     position: relative;
     width: 60px;
     height: 60px;
+}
+
+/*html-2*/
+
+.game_wrapper {
+    width: 100%;
+    height: 100vh;
+    /*background-size: 250px 250px;*/
+}
+
+.player {
+    position: relative;
+    text-align: start;
+    width: 49px;
+    height: 43px;
 }
