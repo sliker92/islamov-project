@@ -4,11 +4,29 @@
     <meta charset="UTF-8">
     <title>Zombie shooter</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="libs/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 <div class="game_wrapper">
     <img class="player" src="img/player.png" alt="#">
 </div>
-<script src="js/gameplay.js"></script>
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/model.js"></script>
+<script src="js/view.js"></script>
+<script src="js/events.js"></script>
+
+<script>
+  function gameStart() {
+    render();
+    player.playerMove();
+    // player.playerStop();
+    player.shoot();
+    // mouseFollow();
+    requestAnimFrame(gameStart);
+  }
+
+  gameStart();
+</script>
 </body>
 </html>
