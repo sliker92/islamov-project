@@ -1,90 +1,72 @@
-const playerDoc = document.querySelector('.player');
-let enemysArray = [];
-let enemy = [];
+const playerDoc = document.querySelector('.player'); //  картинка игрока
+let enemysArray = []; // добавляются враги
+let enemy = []; // добавляются враги картники
+let bulletsArray = []; // добавляются пули при выстреле
 
-//  Класс игрок, который принимает картинку врага как аргумент
-
-class Player {
-  constructor(selector, posX, posY) {
-    this.player = selector;
+// Основной класс, от которого создаются другие классы
+class Entity {
+  constructor(classname, posX, posY, speedX, speedY) {
+    this.classname = classname;
     this.posX = posX;
     this.posY = posY;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.health = 100;
-    this.boolets = 8;
-    this.rotate = 0;
+    this.speedX = speedX;
+    this.speedY = speedY;
   }
-  takeItem = function () {
-
-  };
-  shoot = function () {
-
-  };
-  reloadWeapon = function () {
-
-  };
-  playerMove = function () {
+  move = function () {
     this.posX += this.speedX;
     this.posY += this.speedY;
   };
-  playerStop = function () {
+}
+
+//  Класс игрок, который принимает класс, и позицию в игре
+class Player extends Entity {
+  constructor(classname, posX, posY, speedX, speedY) {
+    super(classname, posX, posY, speedX, speedY);
+    this.position = 'left';
+    this.bullets = 8;
+  }
+  stop = function () {
     this.speedX = 0;
     this.speedY = 0;
   };
+  shoot = function () {
+    this.bullets -= 1;
+    if (this.bullets < 1) this.bullets = 0;
+    console.log(this.bullets);
+  };
+  reloadWeapon = function () {
+    setTimeout( function () {
+      player.bullets = 8;
+    }, 1000 );
+  };
 }
 
-//  Класс враг, который принимает картинку врага как аргумент
+//  Класс враг, который принимает класс, и позицию в игре
+class Enemy extends Entity {
+  move = function () {
+    this.posX += this.speedX;
+    this.posY += this.speedY;
+  };
+}
 
-class Enemy {
-  constructor(selector, posX, posY) {
-    let self = this;
-    self.enemy = selector;
-    self.posX = posX;
-    self.posY = posY;
-    self.speedX = 1;
-    self.speedY = 1;
-    self.health = 100;
-    self.rotate = 0;
+//  Класс Пуля, который принимает класс, и позицию в игре
+class Bullet extends Entity {
+  constructor(classname, posX, posY, speedX, speedY) {
+    super(classname, posX, posY, speedX, speedY);
   }
-  update = function () {
-    // $('.selector').css('translateX(' + self.posX + 'px) translateY(' + self.posY + 'px) translateZ(0)');
-    // $(selector).style.transform = 'translateX(' + self.posX + 'px) translateY(' + self.posY + 'px) translateZ(0)';
-  };
-  enemyMove = function () {
-    self.posX += self.speedX;
-    self.posY += self.speedY;
-  };
-  enemyStop = function () {
-    self.speedX = 0;
-    self.speedY = 0;
-  };
-  checkLimit = function () {
-    if (self.posY < 0) {
-      self.posY = 0;
-    }
-    if (self.posY > innerHeight - 22 - 15) {
-      self.posY = innerHeight - 22 - 15;
-    }
-    if (self.posX < 0) {
-      self.posX = 0;
-    }
-    if (self.posX > innerWidth - 16) {
-      self.posX = innerWidth - 16;
-    }
-  };
 }
 
-let player = new Player(playerDoc, window.innerWidth / 2, window.innerHeight / 2);
+//  Создаём игрока и распологаем его по центру
+let player = new Player(playerDoc, window.innerWidth / 2, window.innerHeight / 2,0,0);
 
 //  создаём врагов и пушим их в массив enemyArray
-
 for (let i = 0; i < 30; i++) {
   enemy[i] = document.createElement('img');
   enemy[i].id = 'enemy' + i;
   enemy[i].setAttribute('src', 'img/zombie_easy.png');
   enemy[i].setAttribute('alt', '#');
-  enemysArray.push((new Enemy(enemy[i].id, Math.random() * innerWidth, Math.random() * innerHeight)));
+  enemysArray.push((new Enemy(enemy[i].id, Math.random() * (innerWidth / 2 - 50), Math.random() * innerHeight - 50, 1, 1)));
   $('.game_wrapper').append(enemy[i]);
 }
+
 
