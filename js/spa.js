@@ -52,6 +52,11 @@ function SwitchToStateFromURLHash() {
     PageHTML += "</footer>";
     break;
   case 'Game':
+    PageHTML += '<header>';
+    PageHTML += '<img alt="#" class="bullets" src="img/bullets.png">';
+    PageHTML += '<span id="bullets_content"></span>';
+    PageHTML += '<span id="score_content"></span>';
+    PageHTML += '</header>';
     PageHTML += "<div class=\"game_wrapper\">\n" +
       "    <img class=\"player\" src=\"img/player-l.png\" alt=\"#\">\n" +
       "</div>";

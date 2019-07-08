@@ -24,6 +24,7 @@ class Player extends Entity {
     super(classname, posX, posY, speedX, speedY);
     this.position = 'left';
     this.bullets = 8;
+    this.score = 0;
   }
   stop = function () {
     this.speedX = 0;
@@ -42,12 +43,7 @@ class Player extends Entity {
 }
 
 //  Класс враг, который принимает класс, и позицию в игре
-class Enemy extends Entity {
-  move = function () {
-    this.posX += this.speedX;
-    this.posY += this.speedY;
-  };
-}
+class Enemy extends Entity {}
 
 //  Класс Пуля, который принимает класс, и позицию в игре
 class Bullet extends Entity {

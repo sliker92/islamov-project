@@ -1,4 +1,7 @@
 function render() {
+  // отрисовываем количество пуль и очки
+  score();
+
   // обновляем положение игрока
   $('.player').css('transform', `translateX(${player.posX}px) translateY(${player.posY}px) translateZ(0px)`);
   checkPlayerLimits();
@@ -17,6 +20,11 @@ function render() {
     bulletsArray[i].move();
   }
   checkBulletLimits();
+}
+
+function score() {
+  $('#bullets_content')[0].innerHTML = player.bullets;
+  $('#score_content')[0].innerHTML = 'score: ' + player.score;
 }
 
 function checkPlayerLimits() {
