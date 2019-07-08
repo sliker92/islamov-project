@@ -10,21 +10,9 @@
 <div class="game_wrapper">
     <img class="player" src="img/player-l.png" alt="#">
 </div>
-<!--<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>-->
 <script src="js/utils.js"></script>
 <script src="js/model.js"></script>
 <script src="js/view.js"></script>
 <script src="js/events.js"></script>
-
-<script>
-  function gameStart() {
-    window.addEventListener('keydown',checkButton);
-    window.addEventListener('keyup', player.stop);
-    window.addEventListener('onclick', player.shoot);
-    render();
-    requestAnimFrame(gameStart);
-  }
-  gameStart();
-</script>
 </body>
 </html>

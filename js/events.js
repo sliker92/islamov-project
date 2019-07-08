@@ -63,3 +63,13 @@ function bulletDirection() {
     bulletsArray.push((new Bullet('bullet', player.posX, player.posY, 0, 6)));
   }
 }
+
+function gameStart() {
+  window.addEventListener('keydown',checkButton);
+  window.addEventListener('keyup', player.stop);
+  window.addEventListener('onclick', player.shoot);
+  render();
+  requestAnimFrame(gameStart);
+}
+
+gameStart();

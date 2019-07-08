@@ -5,24 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zombie shooter</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="libs/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-<canvas id="background_canvas" style="position: absolute"></canvas>
-<script src="js/background_canvas.js"></script>
-<main>
-<div class="content_wrapper">
-    <h1 class="game_name">Shooter zombie killer</h1>
-    <ul class="menu_list">
-        <li><a class="menu_game-start" href="#">New game</a></li>
-        <li><a class="menu_records" href="#">Records</a></li>
-    </ul>
-</div>
-</main>
-<footer>
-    <div class="made-by_wrapper">
-    <span class="made-by">made by</span>
-    <a href="#"><img src="img/vk-logo.svg" alt="#" class="logo"></a>
-    </div>
-</footer>
+<script>
+  function LoadScript () {
+    $.ajax("js/background_canvas.js",
+      { type:'GET', dataType:'script', success:DataLoaded, error:ErrorHandler }
+    );
+  }
+
+  function DataLoaded(data) {
+    console.log('script подгружен');
+  }
+
+  function ErrorHandler(jqXHR,StatusStr,ErrorStr) {
+    alert(StatusStr+' '+ErrorStr);
+  }
+
+  document.addEventListener('DOMContentLoaded', LoadScript, false);
+
+</script>
+<script src="js/spa.js"></script>
 </body>
 </html>
