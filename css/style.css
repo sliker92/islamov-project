@@ -103,7 +103,17 @@ li {
     height: 60px;
 }
 
-/*html-2*/
+/*records style*/
+
+.records_wrapper {
+    text-align: center;
+}
+
+h3 {
+    color: rgb(209, 0, 43);
+}
+
+/*game style*/
 
 .game_wrapper {
     width: 100%;

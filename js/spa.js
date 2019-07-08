@@ -61,7 +61,15 @@ function SwitchToStateFromURLHash() {
     PageHTML += '<script src="js/events.js"></script>';
     break;
   case 'Records':
+    PageHTML += '<div class="records_wrapper">';
     PageHTML += "<h3>Records</h3>";
+    PageHTML += '<ul class="records_list">';
+    PageHTML += '<li>1. <span class="record_name1">no name</span> | points:<span class="record_points1">0000</span> </li>';
+    PageHTML += '<li>2. <span class="record_name2">no name</span> | points:<span class="record_points2">0000</span> </li>';
+    PageHTML += '<li>3. <span class="record_name3">no name</span> | points:<span class="record_points3">0000</span> </li>';
+    PageHTML += '<li>4. <span class="record_name4">no name</span> | points:<span class="record_points4">0000</span> </li>';
+    PageHTML += '</ul>';
+    PageHTML += '</div>';
     break;
   }
   document.querySelector('body').innerHTML = PageHTML;
