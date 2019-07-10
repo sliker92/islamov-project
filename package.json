@@ -1,11 +1,10 @@
 {
-  "name": "project",
+  "name": "zombie killer",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint",
-    "test": "jest"
+    "lint": "eslint"
   },
   "keywords": [],
   "author": "",

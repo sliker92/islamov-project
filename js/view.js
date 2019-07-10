@@ -7,11 +7,25 @@ function render() {
   checkPlayerLimits();
 
   // обновляем положение врагов
-  for (let i = 0; i < enemysArray.length; i++) {
-    enemysArray[i].move;
+
+  for (var i = 0; i < enemysArray.length; i++) {
+    var x0 = enemysArray[i].posX;
+    var y0 = enemysArray[i].posY;
+    var x1 = player.posX;
+    var y1 = player.posY;
+    var c = 1;
+    var l = Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0));
+
+    enemysArray[i].posX += (x1 - x0) * c / l;
+    enemysArray[i].posY += (y1 - y0) * c / l;
+    enemysArray[i].move();
     $('#enemy' + i).css('transform', `translateX(${enemysArray[i].posX}px) translateY(${enemysArray[i].posY}px) translateZ(0px)`);
-    // enemysArray[i].move();
   }
+  // for (let i = 0; i < enemysArray.length; i++) {
+
+
+  //   // enemysArray[i].move();
+  // }
   checkEnemyLimit();
 
   // обновляем движение пули
@@ -80,6 +94,14 @@ function checkBulletLimits() {
       bulletsArray.splice(i, 1);
       $('.bullet').remove();
       break;
+    }
+    for (let j = 0; j < enemysArray.length; j++) {
+      if (bulletsArray[i].posY & bulletsArray[i].posX == enemysArray[i].posY & enemysArray[i].posX) {
+        enemysArray.splice(i, 1);
+        $('.enemy' + i).remove();
+        $('.bullet').remove();
+        break;
+      }
     }
   }
 }

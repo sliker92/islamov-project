@@ -119,9 +119,20 @@ header {
     position: absolute;
 }
 
+.bullet {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+}
+
 .bullets {
     width: 120px;
     height: 80px;
+}
+
+.enemy {
+    width: 40px;
+    height: 50px;
 }
 
 #bullets_content, #score_content {
@@ -152,6 +163,6 @@ header {
 .player {
     position: relative;
     text-align: start;
-    width: 49px;
-    height: 43px;
+    width: 50px;
+    height: 60px;
 }

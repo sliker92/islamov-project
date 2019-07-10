@@ -42,30 +42,37 @@ function checkButton(EO) {
 }
 
 function bulletDirection() {
+  // let classNumber = 'bullet1';
+  // for (let index; index <= 10; i++) {
+  //   if (classNumber.substr(classNumber.length - 1) == index) {
+  //     classNumber = "bullet" + toString(index + 1);
+  //   };
+  // }
+
   if (player.position === 'left') {
     $('.game_wrapper').prepend($('<img>', {class: 'bullet', src: 'img/bullet.png'}));
-    $('.bullet').css('transform', `translateX(${player.posX + 10}px) translateY(${player.posY + 160}px) translateZ(0px)`, 'position', 'relative');
-    bulletsArray.push((new Bullet('bullet', player.posX, player.posY, -6, 0)));
+    $('.bullet').css('transform', `translateX(${player.posX + 10}px) translateY(${player.posY}px) translateZ(0px)`, 'position', 'relative');
+    bulletsArray.push((new Bullet('bullet', player.posX, player.posY + 10, -6, 0)));
   }
   if (player.position === 'right') {
     $('.game_wrapper').prepend($('<img>', {class: 'bullet', src: 'img/bullet.png'}));
-    $('.bullet').css('transform', `translateX(${player.posX + 76}px) translateY(${player.posY - 10}px) translateZ(0px)`, 'position', 'relative');
-    bulletsArray.push((new Bullet('bullet', player.posX, player.posY, 6, 0)));
+    $('.bullet').css('transform', `translateX(${player.posX + 76}px) translateY(${player.posY}px) translateZ(0px)`, 'position', 'relative');
+    bulletsArray.push((new Bullet('bullet', player.posX + 25, player.posY + 35, 6, 0)));
   }
   if (player.position === 'up') {
     $('.game_wrapper').prepend($('<img>', {class: 'bullet', src: 'img/bullet.png'}));
-    $('.bullet').css('transform', `translateX(${player.posX + 50}px) translateY(${player.posY - 48}px) translateZ(0px)`, 'position', 'relative');
-    bulletsArray.push((new Bullet('bullet', player.posX, player.posY, 0, -6)));
+    $('.bullet').css('transform', `translateX(${player.posX}px) translateY(${player.posY - 48}px) translateZ(0px)`, 'position', 'relative');
+    bulletsArray.push((new Bullet('bullet', player.posX + 30, player.posY, 0, -6)));
   }
   if (player.position === 'down') {
     $('.game_wrapper').prepend($('<img>', {class: 'bullet', src: 'img/bullet.png'}));
     $('.bullet').css('transform', `translateX(${player.posX + 30}px) translateY(${player.posY + 10}px) translateZ(0px)`, 'position', 'relative');
-    bulletsArray.push((new Bullet('bullet', player.posX, player.posY, 0, 6)));
+    bulletsArray.push((new Bullet('bullet', player.posX + 7, player.posY + 50, 0, 6)));
   }
 }
 
 function gameStart() {
-  window.addEventListener('keydown',checkButton);
+  window.addEventListener('keydown', checkButton);
   window.addEventListener('keyup', player.stop);
   window.addEventListener('onclick', player.shoot);
   render();

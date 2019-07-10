@@ -12,6 +12,7 @@ class Entity {
     this.speedX = speedX;
     this.speedY = speedY;
   }
+
   move = function () {
     this.posX += this.speedX;
     this.posY += this.speedY;
@@ -26,6 +27,7 @@ class Player extends Entity {
     this.bullets = 8;
     this.score = 0;
   }
+
   stop = function () {
     this.speedX = 0;
     this.speedY = 0;
@@ -36,14 +38,15 @@ class Player extends Entity {
     console.log(this.bullets);
   };
   reloadWeapon = function () {
-    setTimeout( function () {
+    setTimeout(function () {
       player.bullets = 8;
-    }, 1000 );
+    }, 1000);
   };
 }
 
 //  Класс враг, который принимает класс, и позицию в игре
-class Enemy extends Entity {}
+class Enemy extends Entity {
+}
 
 //  Класс Пуля, который принимает класс, и позицию в игре
 class Bullet extends Entity {
@@ -53,12 +56,13 @@ class Bullet extends Entity {
 }
 
 //  Создаём игрока и распологаем его по центру
-let player = new Player(playerDoc, window.innerWidth / 2, window.innerHeight / 2,0,0);
+let player = new Player(playerDoc, window.innerWidth / 2, window.innerHeight / 2, 0, 0);
 
 //  создаём врагов и пушим их в массив enemyArray
 for (let i = 0; i < 30; i++) {
   enemy[i] = document.createElement('img');
   enemy[i].id = 'enemy' + i;
+  enemy[i].className = 'enemy';
   enemy[i].setAttribute('src', 'img/zombie_easy.png');
   enemy[i].setAttribute('alt', '#');
   enemysArray.push((new Enemy(enemy[i].id, Math.random() * (innerWidth / 2 - 50), Math.random() * innerHeight - 50, 1, 1)));
