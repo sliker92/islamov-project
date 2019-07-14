@@ -6,75 +6,63 @@ function SwitchToStateFromURLHash() {
   let URLHash = window.location.hash;
   let StateJSON = decodeURIComponent(URLHash.substr(1));
 
-  if ( StateJSON !== '' ) {
+  if (StateJSON !== '') {
     SPAStateH = JSON.parse(StateJSON);
   } else {
-    SPAStateH = {pagename: 'Main'}; // иначе показываем главную страницу
+    SPAStateH = {pagename: 'Main'};// иначе показываем главную страницу
+  }
+  if (SPAStateH == {pagename: 'Main'}) {
+    pageReload();
   }
   let PageHTML = '';
 
   switch (SPAStateH.pagename) {
   case 'Main':
-    PageHTML += "<canvas id=\"background_canvas\" style=\"position: absolute\"></canvas>";
-    PageHTML += "<script>\n" +
-      "  function LoadScript () {\n" +
-      "    $.ajax(\"js/background_canvas.js\",\n" +
-      "      { type:'GET', dataType:'script', success:DataLoaded, error:ErrorHandler }\n" +
-      "    );\n" +
-      "  }\n" +
-      "\n" +
-      "  function DataLoaded(data) {\n" +
-      "    console.log('script подгружен');\n" +
-      "  }\n" +
-      "\n" +
-      "  function ErrorHandler(jqXHR,StatusStr,ErrorStr) {\n" +
-      "    alert(StatusStr+' '+ErrorStr);\n" +
-      "  }\n" +
-      "\n" +
-      "  document.addEventListener('DOMContentLoaded', LoadScript, false);\n" +
-      "\n" +
-      "</script>";
-    PageHTML += "<script src=\"js/background_canvas.js\"></script>";
-    PageHTML += "<main>";
-    PageHTML += "<div class=\"content_wrapper\">";
-    PageHTML += "<h1 class=\"game_name\">Shooter zombie killer</h1>";
-    PageHTML += "<ul class=\"menu_list\">";
-    PageHTML += "<li><a class=\"menu_game-start\" href=\"#\" onmousedown = 'SwitchToGame()'>New game</a></li>";
-    PageHTML += "<li><a class=\"menu_records\" href=\"#\" onmousedown = 'SwitchToRecords()'>Records</a></li>";
-    PageHTML += "</ul>";
-    PageHTML += "</div>";
-    PageHTML += "</main>";
-    PageHTML += "<footer>";
-    PageHTML += "<div class=\"made-by_wrapper\">";
-    PageHTML += "<span class=\"made-by\">made by</span>";
-    PageHTML += "<a href=\"#\"><img src=\"img/vk-logo.svg\" alt=\"vk page\" href=\"https://vk.com/idbobkoo\" class=\"logo\"></a>";
-    PageHTML += "</div>";
-    PageHTML += "</footer>";
+    PageHTML += `<audio src='sounds/menu.mp3'></audio>
+                <canvas id="background_canvas" style="position: absolute"></canvas>
+                <script src="js/background_canvas.js"></script>
+                <main>
+                <div class="content_wrapper">
+                <h1 class="game_name">Shooter zombie killer</h1>
+                <ul class="menu_list">
+                <li><input type="button" class="menu_game-start" value="New game" onclick = 'SwitchToGame()'></li>
+                <li><input type="button" class="menu_records" value="Records" onclick = 'SwitchToRecords()'></li>
+                </ul>
+                </div>
+                <main>
+                <footer>
+                <div class=\"made-by_wrapper\">
+                <span class=\"made-by\">made by</span>
+                <a href="#"><img src="img/vk-logo.svg" alt="vk page" href="https://vk.com/idbobkoo" class="logo"></a>
+                </div> 
+                </footer>`;
     break;
   case 'Game':
-    PageHTML += '<header>';
-    PageHTML += '<img alt="#" class="bullets" src="img/bullets.png">';
-    PageHTML += '<span id="bullets_content"></span>';
-    PageHTML += '<span id="score_content"></span>';
-    PageHTML += '</header>';
-    PageHTML += "<div class=\"game_wrapper\">\n" +
-      "    <img class=\"player\" src=\"img/player-l.png\" alt=\"#\">\n" +
-      "</div>";
-    PageHTML += '<script src="js/utils.js"></script>';
-    PageHTML += '<script src="js/model.js"></script>';
-    PageHTML += '<script src="js/view.js"></script>';
-    PageHTML += '<script src="js/events.js"></script>';
+    PageHTML += `<header>
+                <img alt="#" class="bullets" src="img/bullets.png">
+                <span id="bullets_content"></span>
+                <span id="score_content"></span>
+                </header>
+                <div class="game_wrapper">
+                <img class="player" src="img/player-l.png" alt="#">
+                </div>
+                <script src="js/utils.js"></script>
+                <script src="js/model.js"></script>
+                <script src="js/view.js"></script>
+                <script src="js/events.js"></script>`;
     break;
   case 'Records':
-    PageHTML += '<div class="records_wrapper">';
-    PageHTML += "<h3>Records</h3>";
-    PageHTML += '<ul class="records_list">';
-    PageHTML += '<li>1. <span class="record_name1">no name</span> | points:<span class="record_points1">0000</span> </li>';
-    PageHTML += '<li>2. <span class="record_name2">no name</span> | points:<span class="record_points2">0000</span> </li>';
-    PageHTML += '<li>3. <span class="record_name3">no name</span> | points:<span class="record_points3">0000</span> </li>';
-    PageHTML += '<li>4. <span class="record_name4">no name</span> | points:<span class="record_points4">0000</span> </li>';
-    PageHTML += '</ul>';
-    PageHTML += '</div>';
+    PageHTML += `<canvas id="background_canvas" style="position: absolute"></canvas>
+      <script src="js/background_canvas.js"></script>
+      <div class="records_wrapper">
+      <h3>Records</h3>
+      <ul class="records_list">
+        <li>1. <span class="record_name1">no name</span> | points:<span class="record_points1">0000</span> </li>
+        <li>2. <span class="record_name2">no name</span> | points:<span class="record_points2">0000</span> </li>
+        <li>3. <span class="record_name3">no name</span> | points:<span class="record_points3">0000</span> </li>
+        <li>4. <span class="record_name4">no name</span> | points:<span class="record_points4">0000</span> </li>
+      </ul>
+      </div>`;
     break;
   }
   document.querySelector('body').innerHTML = PageHTML;
@@ -82,15 +70,24 @@ function SwitchToStateFromURLHash() {
 
 function SwitchToState(NewStateH) {
   location.hash = encodeURIComponent(JSON.stringify(NewStateH));
+  pageReload();
 }
 
 function SwitchToGame() {
-  SwitchToState( { pagename: 'Game' } );
+  SwitchToState({pagename: 'Game'});
 }
 
 function SwitchToRecords() {
-  SwitchToState( { pagename: 'Records' } );
+  $(function(){
+    $(document).ready(function(){
+      $.getScript('js/background_canvas.js');
+    });
+  });
+  SwitchToState({pagename: 'Records'});
 }
 
 SwitchToStateFromURLHash();
 
+let pageReload = () => {
+  document.location.reload(true);
+};

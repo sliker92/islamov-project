@@ -1,4 +1,3 @@
-const playerDoc = document.querySelector('.player'); //  картинка игрока
 /**
  * добавляются враги методом push
  * @type {Array} - массив объектов
@@ -16,6 +15,14 @@ let enemy = [];
 let bulletsArray = [];
 
 class Entity {
+  /**
+   *@description основной класс сущности, он которого наследуются остальные классы игры
+   * @param {object} classname элемент DOM
+   * @param {number} posX позиция по оси Х
+   * @param {number} posY позиция по оси Y
+   * @param {number} speedX скорость по оси Х
+   * @param {number} speedY скорость по оси Y
+   */
   constructor(classname, posX, posY, speedX, speedY) {
     this.classname = classname;
     this.posX = posX;
@@ -24,13 +31,18 @@ class Entity {
     this.speedY = speedY;
   }
 
+  /**
+   * @description увеличивает позицию игрока по осям X и Y
+   */
   move = function () {
     this.posX += this.speedX;
     this.posY += this.speedY;
   };
 }
 
-//  Класс игрок, который принимает класс, и позицию в игре
+/**
+ * @description Класс игрок, который принимает класс, и позицию в игре
+ */
 class Player extends Entity {
   constructor(classname, posX, posY, speedX, speedY) {
     super(classname, posX, posY, speedX, speedY);
@@ -39,14 +51,22 @@ class Player extends Entity {
     this.score = 0;
   }
 
-  stop = function () {
-    this.speedX = 0;
-    this.speedY = 0;
-  };
+  // stop = function () {
+  //   this.speedX = 0;
+  //   this.speedY = 0;
+  // };
+
+  /**
+   * @description управляет количеством пуль
+   */
   shoot = function () {
     this.bullets -= 1;
     if (this.bullets < 1) this.bullets = 0;
   };
+
+  /**
+   * @description перезаржает оружие игрока с паузой после события нажатия кнопки
+   */
   reloadWeapon = function () {
     setTimeout(function () {
       player.bullets = 8;
@@ -54,85 +74,98 @@ class Player extends Entity {
   };
 }
 
-//  Класс враг, который принимает класс, и позицию в игре
+/**
+ * @description Класс враг, который принимает класс, и позицию в игре
+ */
 class Enemy extends Entity {
 }
 
-//  Класс Пуля, который принимает класс, и позицию в игре
+/**
+ * @description Класс Пуля, который принимает класс, и позицию в игре
+ */
 class Bullet extends Entity {
   constructor(classname, posX, posY, speedX, speedY) {
     super(classname, posX, posY, speedX, speedY);
   }
 }
 
-//  Создаём игрока и распологаем его по центру
-let player = new Player(playerDoc, window.innerWidth / 2, window.innerHeight / 2, 0, 0);
+/**
+* Создаём игрока и распологаем его по центру
+* @type {Player}
+*/
+let player = new Player($('.player'), window.innerWidth / 2, window.innerHeight / 2, 0, 0);
 
 
 // UI
 
-
+/**
+ * @description  функция отрисовывает всё происходящее в игре
+ */
 function render() {
   // отрисовываем количество пуль и очки
-  shooter.gameScore();
+  $('#bullets_content')[0].innerHTML = player.bullets;
+  $('#score_content')[0].innerHTML = 'score: ' + player.score;
 
   // обновляем положение игрока
   $('.player').css('transform', `translateX(${player.posX}px) translateY(${player.posY}px) translateZ(0px)`);
-  shooter.checkPlayerLimits();
+  shooter.checkPlayerLimits(player);
+  shooter.checkContact(enemysArray, bulletsArray, enemy, player);
 
   // обновляем положение врагов
-
-  for (var i = 0; i < enemysArray.length; i++) {
+  for (let i = 0; i < enemysArray.length; i++) {
     let angle = Math.atan2(player.posY - enemysArray[i].posY, player.posX - enemysArray[i].posX);
     enemysArray[i].posX = Math.cos(angle) * enemysArray[i].speedX + enemysArray[i].posX;
     enemysArray[i].posY = Math.sin(angle) * enemysArray[i].speedY + enemysArray[i].posY;
     enemysArray[i].move();
-    $('#enemy' + i).css('transform', `translateX(${enemysArray[i].posX}px) translateY(${enemysArray[i].posY}px) translateZ(0px)`);
+    shooter.checkEnemiesLimit(enemysArray[i]);
+    $('.enemy' + i).css('transform', `translateX(${enemysArray[i].posX}px) translateY(${enemysArray[i].posY}px) translateZ(0px)`);
   }
+  shooter.checkContact(enemysArray, bulletsArray, enemy, player);
 
-  shooter.checkEnemiesLimit();
-
-  // обновляем движение пули
+  // обновляем положение пули
   for (let i = 0; i < bulletsArray.length; i++) {
     $('.bullet').css('transform', `translateX(${bulletsArray[i].posX}px) translateY(${bulletsArray[i].posY}px) translateZ(0px)`);
     bulletsArray[i].move();
+    shooter.checkBulletLimits(bulletsArray, bulletsArray[i], '.bullet');
   }
 
-  shooter.checkBulletLimits();
-  shooter.checkCollisions();
+  // проверяем все сущности на столкновения
+  shooter.checkContact(enemysArray, bulletsArray, enemy, player);
 }
 
 
 // EVENTS
 
-
+/**
+ * @description Функции обработки keydown event
+ * @param event - event - событие
+ */
 function checkButton(event) {
   event = event || window.event;
 
-  // проверяем на нажатие кнопки действий игрока
   if (event.keyCode === 87) {
-    $('.player').attr('src', 'img/player-u.png');  // направление картинки игрока
+    $('.player').attr('src', 'img/player-u.png');  // направление спрайта игрока
     player.position = 'up';
     player.speedY = -7;
     player.speedX = 0;
     player.move();
   }
   if (event.keyCode === 83) {
-    $('.player').attr('src', 'img/player-d.png');  // направление картинки игрока
+    $('.player').attr('src', 'img/player-d.png');  // направление спрайта игрока
     player.position = 'down';
     player.speedY = 7;
     player.speedX = 0;
     player.move();
   }
   if (event.keyCode === 65) {
-    $('.player').attr('src', 'img/player-l.png');  // направление картинки игрока
+    $('.player').attr('src', 'img/player-l.png');  // направление спрайта игрока
     player.position = 'left';
     player.speedY = 0;
     player.speedX = -7;
     player.move();
   }
   if (event.keyCode === 68) {
-    $('.player').attr('src', 'img/player-r.png');  // направление картинки игрока
+    $('.player').attr('src', 'img/player-r.png');  // направление спрайта игрока
     player.position = 'right';
     player.speedY = 0;
     player.speedX = 7;
@@ -149,6 +182,9 @@ function checkButton(event) {
   }
 }
 
+/**
+ * @description создаёт карьинку пули и сущность пули и отрисовывет её перемещение в зависимости от направления игрока
+ */
 function bulletDirection() {
   if (player.position === 'left') {
     $('.game_wrapper').prepend($('<img>', {class: 'bullet', src: 'img/bullet.png'}));
@@ -173,12 +209,9 @@ function bulletDirection() {
 }
 
 function gameStart() {
-  window.addEventListener('keydown', checkButton);
-  window.addEventListener('keyup', player.stop);
-  window.addEventListener('onclick', player.shoot);
   render();
   requestAnimationFrame(gameStart);
 }
 
-shooter.createEnemies();
+shooter.init();
 gameStart();
