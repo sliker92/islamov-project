@@ -73,6 +73,9 @@
       entity.speedY = shooter.getRandomArbitrary(-1, 1);
       entity.speedX = shooter.getRandomArbitrary(-1, 1);
     }
+    if (player.posX == Math.round(entity.posX) && player.posY == Math.round(entity.posY)) {
+      window.shooter.gameOver(); // не работает
+    }
   }
 
   window.shooter = window.shooter || {};
@@ -81,7 +84,7 @@
 
 (function (window) {
   /**
-   * @description проверяет выходит ли сущность за пределы игровой зоны
+   * @description проверяет выходит ли сущность пуля за пределы игровой зоны
    * @param {object} entity - объект класса пуля
    */
   function checkBulletLimits(array, entity, classname) {
@@ -140,18 +143,18 @@
   function checkContact(entityEnemyArr, entityBulletsArr, spriteArr, playerObj) {
     for (let i = 0; i < entityEnemyArr.length; i++) {
       for (let j = 0; j < entityBulletsArr.length; j++) {
-        if (shooter.entityContact(Math.round(entityEnemyArr[i].posX), Math.round(entityEnemyArr[i].posY), 12, 12, entityBulletsArr[j].posX, entityBulletsArr[j].posY, 12, 12)) {
+        if (shooter.entityContact(Math.round(entityEnemyArr[i].posX), Math.round(entityEnemyArr[i].posY),
+          Math.round(entityEnemyArr[i].posX) + 12, Math.round(entityEnemyArr[i].posY) + 12,
+          entityBulletsArr[j].posX, entityBulletsArr[j].posY, entityBulletsArr[j].posX + 12,
+          entityBulletsArr[j].posY + 12)) {
+          $('#enemy').remove();
           entityEnemyArr.splice(i, 1);
           spriteArr.splice(i, 1);
-          $('.enemy' + i).fadeOut().remove();
           i--;
           playerObj.score += 100;
           entityBulletsArr.splice(j, 1);
           $('.bullet').remove();
           break;
-        }
-        if (entityEnemyArr.length === 0) {
-          $('#enemy').fadeOut().remove();
         }
       }
     }
@@ -159,6 +162,20 @@
 
   window.shooter = window.shooter || {};
   window.shooter.checkContact = checkContact;
+})(window);
+
+(function (window) {
+  /**
+   * @description заканчивает игру
+   */
+  function gameOver() {
+    $('header').css('display', 'none');
+    $('.game_wrapper').css('display', 'none');
+    $('.game_over').css('display', 'block');
+  }
+
+  window.shooter = window.shooter || {};
+  window.shooter.gameOver = gameOver;
 })(window);
 
 (function (window) {

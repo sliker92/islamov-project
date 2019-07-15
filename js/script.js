@@ -90,9 +90,9 @@ class Bullet extends Entity {
 }
 
 /**
-* Создаём игрока и распологаем его по центру
-* @type {Player}
-*/
+ * Создаём игрока и распологаем его по центру
+ * @type {Player}
+ */
 let player = new Player($('.player'), window.innerWidth / 2, window.innerHeight / 2, 0, 0);
 
 
@@ -214,4 +214,5 @@ function gameStart() {
 }
 
 shooter.init();
+setTimeout(shooter.gameOver, 30000);
 gameStart();

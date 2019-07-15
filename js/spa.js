@@ -39,12 +39,17 @@ function SwitchToStateFromURLHash() {
     break;
   case 'Game':
     PageHTML += `<header>
-                <img alt="#" class="bullets" src="img/bullets.png">
-                <span id="bullets_content"></span>
-                <span id="score_content"></span>
+                    <img alt="#" class="bullets" src="img/bullets.png">
+                    <span id="bullets_content"></span>
+                    <span id="score_content"></span>
                 </header>
                 <div class="game_wrapper">
-                <img class="player" src="img/player-l.png" alt="#">
+                    <img class="player" src="img/player-l.png" alt="#">
+                </div>
+                <div class="game_over"> 
+                    <label for="input">score</label>
+                    <input type="text" placeholder="Enter your name">
+                    <input type="button" class="menu_records" value="ok" onclick="setRecord()">
                 </div>
                 <script src="js/utils.js"></script>
                 <script src="js/model.js"></script>
@@ -78,8 +83,8 @@ function SwitchToGame() {
 }
 
 function SwitchToRecords() {
-  $(function(){
-    $(document).ready(function(){
+  $(function () {
+    $(document).ready(function () {
       $.getScript('js/background_canvas.js');
     });
   });
