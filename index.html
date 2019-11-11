@@ -2,10 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zombie shooter</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/libs/jquery-3.4.1.min.js"></script>
 </head>
 <body>
+<script src="js/spa.js"></script>
+<script>
+  $(function () {
+    $(document).ready(function () {
+      $.getScript('js/background_canvas.js');
+    });
+  });
+</script>
+<script src="js/utility.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>
